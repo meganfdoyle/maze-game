@@ -54,7 +54,7 @@ World.add(world, walls);
 //the next two numbers specify how tall and wide the shape should be
 const shape = Bodies.rectangle(200, 200, 50, 50, {
     //gravity is enabled, but we want the shape to remain in place 
-    //isStatic: true
+    isStatic: true
 });
 
 //adding the shape to the world
