@@ -63,7 +63,7 @@ const shuffle = (arr) => {
         const temp = arr[counter];
         arr[counter] = arr[index];
         arr[index] = temp;
-    }
+    };
     return arr;
 };
 
@@ -134,9 +134,9 @@ const stepThroughCell = (row, column) => {
             horizontals[row - 1][column] = true;
         } else if (direction === 'down') {
             horizontals[row][column] = true;
-        }
+        };
 
-        stepThroughCell(nextRow, nextColumn)
+        stepThroughCell(nextRow, nextColumn);
     };
 };
 
@@ -146,7 +146,7 @@ horizontals.forEach ((row, rowIndex) => {
     row.forEach((open, columnIndex) => {
         if (open) {
             return;
-        }
+        };
 
         const wall = Bodies.rectangle(
             columnIndex * unitLengthX + unitLengthX / 2,
@@ -169,7 +169,7 @@ verticals.forEach ((row, rowIndex) => {
     row.forEach((open, columnIndex) => {
         if (open) {
             return;
-        }
+        };
 
         const wall = Bodies.rectangle(
             columnIndex * unitLengthX + unitLengthX,
@@ -230,19 +230,19 @@ document.addEventListener('keydown', event => {
 
     if (event.key === 'w' || event.key ==='ArrowUp') {
         Body.setVelocity(ball, {x, y: Math.max(y - 5, -maxVelocity)}) 
-    }
+    };
 
     if (event.key === 's' || event.key ==='ArrowDown') {
         Body.setVelocity(ball, {x, y: Math.min(y + 5, maxVelocity)}) 
-     }
+     };
 
      if (event.key === 'a' || event.key ==='ArrowLeft') {
         Body.setVelocity(ball, {x: Math.max(x - 5, -maxVelocity), y})  
-     }
+     };
 
      if (event.key === 'd' || event.key ==='ArrowRight') {
         Body.setVelocity(ball, {x: Math.min(x + 5, maxVelocity), y})  
-     }
+     };
 });
 
 // Win Condition
@@ -265,7 +265,7 @@ Events.on(engine, 'collisionStart', event => {
                     Body.setMass(body, 1);
                 };
                 
-            })
-        }
-    })
-})
+            });
+        };
+    });
+});
