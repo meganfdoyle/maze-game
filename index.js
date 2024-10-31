@@ -12,8 +12,8 @@ Matter JS Terminology
 
 const {Engine, Render, Runner, World, Bodies, Body, Events} = Matter;
 
-const cellsHorizontal = 3;
-const cellsVertical = 3;
+const cellsHorizontal = 14;
+const cellsVertical = 10;
 const width = window.innerWidth;
 const height = window.innerHeight;
 
