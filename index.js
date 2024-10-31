@@ -10,13 +10,16 @@ Matter JS Terminology
   - Body: a shape we are displaying
 */
 
-const {Engine, Render, Runner, World, Bodies} = Matter;
+const {Engine, Render, Runner, World, Bodies, Body} = Matter;
 
-const cells = 3;
+const cells = 10;
 const width = 600;
 const height = 600;
 
+const unitLength = width / cells;
+
 const engine = Engine.create();
+engine.world.gravity.y = 0;
 const {world} = engine;
 const render = Render.create({
     element: document.body,
@@ -35,13 +38,13 @@ Runner.run(Runner.create(), engine);
 // Walls
 const walls = [
     //0px down (top of canvas)
-    Bodies.rectangle(width / 2, 0, width, 40, {isStatic: true}),
+    Bodies.rectangle(width / 2, 0, width, 2, {isStatic: true}),
     //{height}px down (bottom of canvas)
-    Bodies.rectangle(width / 2, height, width, 40, {isStatic: true}),
+    Bodies.rectangle(width / 2, height, width, 2, {isStatic: true}),
     //{width}px to the right (right side of canvas)
-    Bodies.rectangle(width, height / 2, 40, height, {isStatic: true}),
+    Bodies.rectangle(width, height / 2, 2, height, {isStatic: true}),
     //0px to the right (left side of canvas)
-    Bodies.rectangle(0, height / 2, 40, height, {isStatic: true})
+    Bodies.rectangle(0, height / 2, 2, height, {isStatic: true})
 ];
 World.add(world, walls);
 
@@ -127,17 +130,93 @@ const stepThroughCell = (row, column) => {
         } else if (direction === 'down') {
             horizontals[row][column] = true;
         }
+
+        stepThroughCell(nextColumn, nextRow)
     };
 };
 
 stepThroughCell(startRow, startColumn);
 
-//first two numbers specify the location of the center of the shape
-//the next two numbers specify how tall and wide the shape should be
-const shape = Bodies.rectangle(200, 200, 50, 50, {
-    //gravity is enabled, but we want the shape to remain in place 
-    isStatic: true
+horizontals.forEach ((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+        if (open) {
+            return;
+        }
+
+        const wall = Bodies.rectangle(
+            columnIndex * unitLength + unitLength / 2,
+            rowIndex * unitLength + unitLength,
+            unitLength,
+            10,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall)
+    });
 });
 
-//adding the shape to the world
-World.add(world, shape);
+verticals.forEach ((row, rowIndex) => {
+    row.forEach((open, columnIndex) => {
+        if (open) {
+            return;
+        }
+
+        const wall = Bodies.rectangle(
+            columnIndex * unitLength + unitLength,
+            rowIndex * unitLength + unitLength / 2,
+            10,
+            unitLength,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall)
+    });
+});
+
+
+
+// Goal
+const goal = Bodies.rectangle(
+    width - (unitLength / 2), 
+    height - (unitLength / 2), 
+    unitLength * 0.7,
+    unitLength * 0.7, 
+    { 
+    isStatic: true
+    }
+);
+
+World.add(world, goal);
+
+// Ball
+const ball = Bodies.circle(
+    unitLength / 2, 
+    unitLength / 2,
+    //radius 
+    unitLength / 4,
+
+);
+
+World.add(world, ball);
+
+document.addEventListener('keydown', event => {
+    const {x, y} = ball.velocity;
+
+    if (event.key === 'w' || event.key ==='ArrowUp') {
+        Body.setVelocity(ball, {x, y: y - 5}) 
+    }
+
+    if (event.key === 's' || event.key ==='ArrowDown') {
+        Body.setVelocity(ball, {x, y: y + 5}) 
+     }
+
+     if (event.key === 'a' || event.key ==='ArrowLeft') {
+        Body.setVelocity(ball, {x: x - 5, y})  
+     }
+
+     if (event.key === 'd' || event.key ==='ArrowRight') {
+        Body.setVelocity(ball, {x: x + 5, y})  
+     }
+});
