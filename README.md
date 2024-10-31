@@ -1,0 +1,1 @@
+This program creates a randomized grid that makes up a maze, a circle object that the user controls, and a rectangular goal in the bottom right corner of the maze. The user can control the circle by using either WASD or the arrow keys to navigate the maze. A winning message is displayed upon contact with the goal. This program utilizes the 2D physics engine at brm.io/matter-js/.
