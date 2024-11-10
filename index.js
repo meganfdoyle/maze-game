@@ -256,6 +256,7 @@ Events.on(engine, 'collisionStart', event => {
             labels.includes(collision.bodyB.label)
         ) {
             document.querySelector('.hidden').classList.remove('hidden');
+            document.querySelector('.instructions').classList.remove('hidden');
             world.gravity.y = 1;
             world.bodies.forEach(body => {
                 if (body.label !== 'barrier') {
